@@ -3,11 +3,15 @@ module Dec_1 where
 import Data.Char (isDigit, digitToInt)
 import Data.List (isInfixOf, elemIndices)
 
-main :: IO ()
-main = do
+day1 :: IO ()
+day1 = do
     contents <- readFile "1st.txt"
-    let nums = map firstAndLastNumber (words contents)
-    print $ sum nums
+
+    putStr "Part 1: "
+    print $ sum $ map firstAndLastDigits (words contents)
+
+    putStr "Part 2: "
+    print $ sum $ map firstAndLastNumber (words contents)
 
 -- 1
 firstAndLastDigits :: String -> Int
