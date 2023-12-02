@@ -18,7 +18,7 @@ firstAndLastDigits :: String -> Int
 firstAndLastDigits str = read (firstDigit str : [firstDigit (reverse str)])
 
 firstDigit :: String -> Char
-firstDigit str = head $ dropWhile (not . isDigit) str
+firstDigit = head . dropWhile (not . isDigit)
 
 -- 2
 numbers :: [String]
