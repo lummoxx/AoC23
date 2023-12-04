@@ -6,8 +6,8 @@ day4 :: IO ()
 day4 = do
     contents <- readFile "4th.txt"
     let rows = lines contents
-    putStr $ "Part 1: " ++ (show $ sum $ map points rows)
-    putStr $ "Part 2: " ++ (show $ sumCopies $ parseCards rows)
+    putStr $ "Part 1: " ++ (show $ sum $ map points rows) ++ "\n"
+    putStr $ "Part 2: " ++ (show $ sumCopies $ parseCards rows) ++ "\n"
 
 -- 1
 toNumbers :: String -> [Int]
@@ -15,11 +15,11 @@ toNumbers str = map read $ words str
 
 points :: String -> Int
 points game
-    | num_wins game > 0 = 2^(num_wins game-1)
+    | numWins game > 0 = 2^(numWins game-1)
     | otherwise = 0
 
-num_wins :: String -> Int
-num_wins game = length $ filter (`elem` toNumbers wn ) $ toNumbers $ tail aw
+numWins :: String -> Int
+numWins game = length $ filter (`elem` toNumbers wn ) $ toNumbers $ tail aw
     where (wn, aw) = break ( == '|') $ tail $ dropWhile ( ':' /= ) game
 
 -- 2
@@ -30,7 +30,7 @@ parseCards :: [String] -> [Card]
 parseCards games = map ((\(x,y) -> C {game_id = x, wins = y, copies = 1} ) . card) games
 
 card :: String -> (Int, Int)
-card game = (game_id, num_wins game)
+card game = (game_id, numWins game)
     where game_id = read $ dropWhile (not . isDigit) $ takeWhile ( /= ':') game :: Int
 
 sumCopies :: [Card] -> Int
