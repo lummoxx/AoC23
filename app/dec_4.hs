@@ -6,12 +6,8 @@ day4 :: IO ()
 day4 = do
     contents <- readFile "4th.txt"
     let rows = lines contents
-
-    putStr "Part 1: "
-    print $ sum $ map points rows
-
-    putStr "Part 2: "
-    print $ sumCopies $ addCopies $ parseCards rows
+    putStr $ "Part 1: " ++ (show $ sum $ map points rows)
+    putStr $ "Part 2: " ++ (show $ sumCopies $ parseCards rows)
 
 -- 1
 toNumbers :: String -> [Int]
@@ -35,19 +31,13 @@ parseCards games = map ((\(x,y) -> C {game_id = x, wins = y, copies = 1} ) . car
 
 card :: String -> (Int, Int)
 card game = (game_id, num_wins game)
-    where (g, _) = break (== ':') game
-          game_id = read $ dropWhile (not . isDigit) g :: Int
+    where game_id = read $ dropWhile (not . isDigit) $ takeWhile ( /= ':') game :: Int
 
-addCopies :: [Card] -> [Card]
-addCopies cards = foldl go cards cards
+sumCopies :: [Card] -> Int
+sumCopies cards = foldl (\s (C _ _ c) -> s + c ) 0 $ foldl go cards cards
     where go :: [Card] -> Card -> [Card]
           go cs (C g w _) = cs'
             where affected = filter (\x -> (game_id x <= g+w) && (game_id x > g)) cs
                   c = copies $ head $ filter (\x-> game_id x == g) cs
                   updated = map (\ (C game wins c') -> (C game wins ((c'+c)))) affected
                   cs' = updated ++ filter (`notElem` affected) cs
-
-sumCopies :: [Card] -> Int
-sumCopies cards = foldl go 0 cards
-    where go :: Int -> Card -> Int
-          go s (C _ _ c) = s + c
