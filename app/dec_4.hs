@@ -6,8 +6,8 @@ day4 :: IO ()
 day4 = do
     contents <- readFile "4th.txt"
     let rows = lines contents
-    putStr $ "Part 1: " ++ (show $ sum $ map points rows) ++ "\n"
-    putStr $ "Part 2: " ++ (show $ sumCopies $ parseCards rows) ++ "\n"
+    putStrLn $ "Part 1: " ++ (show $ sum $ map points rows)
+    putStrLn $ "Part 2: " ++ (show $ sumCopies $ parseCards rows)
 
 -- 1
 toNumbers :: String -> [Int]
@@ -27,7 +27,7 @@ data Card = C {game_id :: Int, wins :: Int, copies :: Int}
     deriving Eq
 
 parseCards :: [String] -> [Card]
-parseCards games = map ((\(x,y) -> C {game_id = x, wins = y, copies = 1} ) . card) games
+parseCards games = map ((\(x,y) -> C x y 1 ) . card) games
 
 card :: String -> (Int, Int)
 card game = (game_id, numWins game)
