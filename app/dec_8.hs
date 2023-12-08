@@ -14,8 +14,8 @@ day8 = do
 type MapLR = M.Map String (String, String)
 
 parseLine :: String -> (String, (String, String))
-parseLine str = (is, (tail v1, take 3 $ dropWhile (not . isLetter) v2))
-    where (is, (v1,v2)) = (\(x,y) -> (takeWhile isLetter x, (break (== ',') y))) $ break (== '(') str
+parseLine str = (key, (tail v1, take 3 $ dropWhile (not . isLetter) v2))
+    where (key, (v1,v2)) = (\(x,y) -> (takeWhile isLetter x, (break (== ',') y))) $ break (== '(') str
 
 steps ::  (String -> Bool) -> String -> MapLR -> Int -> String -> Int
 steps f is mapLR s start
