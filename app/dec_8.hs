@@ -1,12 +1,11 @@
 module Dec_8 where
 import Data.Char (isLetter)
 import qualified Data.Map as M
-import System.IO.Unsafe
 
 day8 :: IO ()
 day8 = do
-    let ls = lines $ unsafePerformIO $ readFile "8th.txt"
-        mapLR =  M.fromList $ map parseLine $ (tail . tail) ls
+    ls <- lines <$> readFile "8th.txt"
+    let mapLR =  M.fromList $ map parseLine $ (tail . tail) ls
         a_keys = filter ((== 'A') . last) $ M.keys mapLR
     print $ steps (== "ZZZ") (cycle (head ls)) mapLR 0 "AAA"
     print $ foldr lcm 1 $ map (steps ((== 'Z') . last) (cycle (head ls)) mapLR 0) a_keys
